@@ -1,9 +1,6 @@
 package fr.parisnanterre.miage.rps.model;
 
-import org.testng.annotations.Test;
-import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.AfterMethod;
-import org.testng.annotations.Parameters;
+import org.testng.annotations.*;
 
 import fr.parisnanterre.miage.rps.model.RPSEnum;
 
@@ -49,6 +46,48 @@ public class RockPaperScissorsTest {
         assertEquals(res,Result.WIN);
     }
 
+    @DataProvider(name="winData")
+    public Object[][] createWinData(){
+        return new Object[][]{
+                {RPSEnum.PAPER,RPSEnum.ROCK},
+                {RPSEnum.ROCK,RPSEnum.SCISSORS},
+                {RPSEnum.SCISSORS,RPSEnum.PAPER},
+
+        };
+
+    }
+    @DataProvider(name = "tieData")
+    public Object[][] createTieData() {
+        return new Object[][] {
+                {RPSEnum.PAPER, RPSEnum.PAPER },
+                {RPSEnum.ROCK, RPSEnum.ROCK},
+                {RPSEnum.SCISSORS, RPSEnum.SCISSORS}
+        };
+    }
+
+    @DataProvider(name = "lostData")
+    public Object[][] createLossData() {
+        return new Object[][] {
+                {RPSEnum.PAPER, RPSEnum.SCISSORS },
+                {RPSEnum.ROCK, RPSEnum.PAPER},
+                {RPSEnum.SCISSORS, RPSEnum.ROCK}
+        };
+    }
+
+    @Test(dataProvider = "winData")
+    public void testWinPlay(RPSEnum p1, RPSEnum p2) {
+        assertEquals(rps.play(p1, p2), Result.WIN);
+    }
+
+    @Test(dataProvider = "tieData")
+    public void testTiePlay(RPSEnum p1, RPSEnum p2) {
+        assertEquals(rps.play(p1, p2), Result.TIE);
+    }
+
+    @Test(dataProvider = "lostData")
+    public void testLostPlay(RPSEnum p1, RPSEnum p2) {
+        assertEquals(rps.play(p1, p2), Result.LOST);
+    }
 
 
 }
