@@ -21,13 +21,34 @@ public class RockPaperScissorsTest {
 
     @AfterMethod
     public void tearDown() {
+
         rps=null;
     }
-
-    @Parameters({"papier","pierre"})
-
+    @Parameters({"papier", "ciseaux"})
     @Test
-    public void testPlay(String p1, String p2){
-        assertEquals(rps.play(RPSEnum.PAPER, RPSEnum.ROCK),Result.TIE);
+    void testLostPlay(String p1, String p2)
+    {
+        Result res = rps.play(RPSEnum.valueOf(p1), RPSEnum.valueOf(p2));
+        assertEquals(res,Result.LOST);
     }
+
+    @Parameters({"papier", "papier"})
+    @Test
+    void testTiePlay(String p1, String p2)
+    {
+        Result res = rps.play(RPSEnum.valueOf(p1), RPSEnum.valueOf(p2));
+        assertEquals(res,Result.TIE);
+    }
+
+
+    @Parameters({"ciseaux", "papier"})
+    @Test
+    void testWinPlay(String p1, String p2)
+    {
+        Result res = rps.play(RPSEnum.valueOf(p1), RPSEnum.valueOf(p2));
+        assertEquals(res,Result.WIN);
+    }
+
+
+
 }
