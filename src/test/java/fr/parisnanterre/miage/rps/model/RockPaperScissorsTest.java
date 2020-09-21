@@ -4,23 +4,74 @@ import org.testng.annotations.*;
 
 import fr.parisnanterre.miage.rps.model.RPSEnum;
 
+import java.util.LinkedList;
+
 import static org.testng.Assert.*;
 
 public class RockPaperScissorsTest {
 
     RockPaperScissors rps;
 
+    private Player p1;
+    private Player p2;
+    private Player p3;
+    private Player p4;
+
     @BeforeMethod
     public void setUp() {
 
         rps= new RockPaperScissors();
+
+        LinkedList<RPSEnum> m1 = new LinkedList<>();
+        m1.add(RPSEnum.ROCK);
+        m1.add(RPSEnum.PAPER);
+
+        LinkedList<RPSEnum> m2 = new LinkedList<>();
+        m2.add(RPSEnum.SCISSORS);
+        m1.add(RPSEnum.ROCK);
+
+        LinkedList<RPSEnum> m3 = new LinkedList<>();
+        m3.add(RPSEnum.ROCK);
+        m1.add(RPSEnum.PAPER);
+
+        LinkedList<RPSEnum> m4 = new LinkedList<>();
+        m4.add(RPSEnum.PAPER);
+        m1.add(RPSEnum.SCISSORS);
+
+        p1 = new Player("Joueur 1", m1);
+        p2 = new Player("Joueur 2", m2);
+        p3 = new Player("Joueur 3", m3);
+        p4 = new Player("Joueur 4", m4);
+
     }
 
     @AfterMethod
     public void tearDown() {
 
         rps=null;
+        p1=null;
+        p2=null;
+        p3=null;
+        p4=null;
     }
+
+    @Test
+    public void testPlayerWin() {
+        assertEquals(rps.jeu(p1, p2), Result.WIN);
+    }
+
+    @Test
+    public void testPlayerLoose() {
+        assertEquals(rps.jeu(p1, p4), Result.LOST);
+    }
+
+    @Test
+    public void testPlayerTie() {
+        assertEquals(rps.jeu(p1, p3), Result.TIE);
+    }
+
+
+
     @Parameters({"papier", "ciseaux"})
     @Test
     void testLostPlay(String p1, String p2)
